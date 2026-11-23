@@ -1,0 +1,12 @@
+name = "backyardeventssg"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "backyardeventssg"
+database_id = "PASTE-YOUR-DATABASE-ID-HERE"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "backyardeventssg-images"

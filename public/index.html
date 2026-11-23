@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backyard Events SG | Craft fairs and atrium pop-up booths in Singapore</title>
+<link rel="icon" href="img/favicon.png">
+<meta name="description" content="Backyard Events SG organises craft fairs and atrium pop-up booths across Singapore. Browse upcoming events and reserve your booth online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Caveat:wght@600&family=Public+Sans:wght@400;600&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=DM+Sans:wght@400;600&family=Young+Serif&family=Figtree:wght@400;600&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--head:"Bricolage Grotesque",system-ui,sans-serif;--body:"Public Sans",system-ui,sans-serif;--hand:Caveat,cursive;--hw:800;--paper:#fbfaf7;--ink:#181818;--red:#7a3ff0;--pink:#ff66c1;--sun:#ffbc5b;--teal:#0098b3;--kraft:#ffbc5b;--line:#e2e0d9;--mute:#58585f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body)}
+h1,h2,h3,.brand{font-family:var(--head);line-height:1.08;margin:0}
+h1:focus,h2:focus{outline:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:1020px;margin:0 auto;padding:0 20px}
+
+/* awning */
+.awning{display:flex;overflow:hidden;height:40px;background:var(--paper)}
+.awning i{flex:0 0 38px;height:100%;border-radius:0 0 19px 19px;background:#8b54ff;transform-origin:top;animation:drop .5s cubic-bezier(.3,1.4,.5,1) both;animation-delay:calc(var(--n)*18ms)}
+.awning i:nth-child(4n+2){background:var(--pink)}.awning i:nth-child(4n+3){background:var(--sun)}.awning i:nth-child(4n){background:var(--teal)}
+@keyframes drop{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+header{position:sticky;top:0;z-index:25;background:var(--paper);border-bottom:1px solid var(--line)}
+header .bar{display:flex;align-items:center;gap:28px;padding-top:12px;padding-bottom:12px}
+.brand{display:block;margin-right:auto}.brand img{display:block;height:50px;width:auto}
+header nav{display:flex;gap:28px;font-weight:600;font-size:1rem}
+header nav a{text-decoration:none;padding:6px 0;border-bottom:3px solid transparent;white-space:nowrap;transition:border-color .2s}
+header nav a:hover{border-color:var(--line)}
+header nav a.act{border-color:var(--pink)}
+.btn{font:600 .98rem var(--body);background:var(--ink);color:#fff;border:2px solid var(--ink);padding:10px 18px;border-radius:4px;cursor:pointer;text-decoration:none;display:inline-block;transition:background .15s,transform .15s}
+.btn:hover{background:var(--red);border-color:var(--red)}
+.btn:active{transform:scale(.97)}
+.btn.sm{padding:9px 16px;font-size:.92rem}
+.btn.plain{background:transparent;color:var(--ink)}
+.btn.plain:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* pages */
+.view{display:none}
+.view.on{display:block}
+.view.in{animation:enter .38s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.page{padding-top:44px;padding-bottom:80px}
+.band{padding:60px 0;border-top:1px solid var(--line)}
+.page h1,.band h2{font-size:clamp(1.9rem,4.4vw,2.8rem);font-weight:var(--hw);letter-spacing:-.01em;margin-bottom:8px}
+.lede{color:var(--mute);margin:0 0 28px;max-width:38em}
+.back{display:inline-block;margin-bottom:18px;font-weight:600;text-decoration:none;border-bottom:2px solid var(--line)}
+.back:hover{border-color:var(--pink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-top:44px;padding-bottom:64px}
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.7rem);font-weight:var(--hw);letter-spacing:-.02em}
+.hero p{max-width:34em;margin:18px 0 26px;color:var(--mute);font-size:1.08rem}
+.hero .btns{display:flex;gap:12px;flex-wrap:wrap}
+.pics{position:relative;height:340px}
+.pic{position:absolute;margin:0;background:#fff;padding:8px 8px 30px;box-shadow:0 2px 0 rgba(27,42,65,.12),0 10px 22px rgba(27,42,65,.14);transition:transform .25s}
+.pic div{position:relative;width:100%;height:100%;background:var(--kraft);display:grid;place-items:center;font:600 1.1rem var(--hand);color:#7b5d33;text-align:center}
+.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pic:nth-child(1){width:200px;height:230px;left:0;top:10px;transform:rotate(-4deg)}
+.pic:nth-child(2){width:190px;height:220px;right:0;top:0;transform:rotate(3deg)}
+.pic:nth-child(3){width:210px;height:200px;left:70px;bottom:0;transform:rotate(-1.5deg)}
+.pics:hover .pic:nth-child(1){transform:rotate(-6deg) translateY(-4px)}.pics:hover .pic:nth-child(2){transform:rotate(5deg) translateY(-4px)}.pics:hover .pic:nth-child(3){transform:rotate(0) translateY(-4px)}
+.pic:nth-child(2) div{background:#d3a4f2}.pic:nth-child(3) div{background:#ff9fd5}
+.pic::before{content:"";position:absolute;top:-10px;left:50%;width:64px;height:22px;margin-left:-32px;background:rgba(242,183,43,.7);transform:rotate(-2deg);z-index:2}
+
+/* themes */
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.th3{display:block;text-decoration:none;border-top:8px solid var(--c);padding-top:12px;transition:transform .2s}
+.th3:hover{transform:translateY(-4px)}
+.th3 h3{font-size:1.35rem;margin-bottom:6px}.th3 p{margin:0 0 6px;color:var(--mute)}.th3 span{font-weight:600;font-size:.92rem;border-bottom:2px solid var(--c)}
+
+/* event rows */
+.row{display:grid;grid-template-columns:96px 1fr auto;gap:22px;align-items:center;padding:20px 12px;border-bottom:1px dashed var(--line);transition:background .2s}
+.row:first-child{border-top:1px dashed var(--line)}
+.row:hover{background:#fff}
+.view.in .row{animation:enter .45s ease-out both;animation-delay:calc(var(--i,0)*70ms)}
+.row:nth-child(4n+2) .stub{background:#ff9fd5}.row:nth-child(4n+3) .stub{background:#d3a4f2}.row:nth-child(4n) .stub{background:#86d3e3}
+.stub{background:var(--kraft);color:#3d2d14;text-align:center;padding:12px 6px 10px;position:relative;border-radius:3px}
+.stub::before{content:"";position:absolute;top:7px;left:50%;width:9px;height:9px;margin-left:-4.5px;background:var(--paper);border-radius:50%}
+.stub b{display:block;font:var(--hw) 2rem var(--head);line-height:1;margin-top:14px}
+.stub span{font-weight:600;font-size:.88rem}
+.stub small{display:block;font-size:.72rem;margin-top:3px}
+.row h3{font-size:1.35rem;margin-bottom:4px}
+.row p{margin:0;color:var(--mute);font-size:.95rem}
+.kind{display:inline-block;font:600 .8rem var(--body);background:var(--sun);padding:1px 8px;border-radius:3px;margin:0 6px 6px 0}
+.kind.th{background:var(--pink)}
+.left{color:var(--red);font-weight:600}
+.empty{padding:24px 0;color:var(--mute)}
+.acts{display:grid;gap:8px}
+.more{margin-top:22px}
+
+.search{width:100%;max-width:420px;font:inherit;padding:11px 14px;border:2px solid var(--ink);border-radius:40px;background:#fff;margin:0 0 14px;display:block}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.chip{font:600 .92rem var(--body);border:2px solid var(--ink);background:transparent;color:var(--ink);padding:6px 16px;border-radius:40px;cursor:pointer;transition:background .15s,color .15s}
+.chip.on{background:var(--ink);color:#fff}
+
+/* event page */
+.dmeta{color:var(--mute);margin:6px 0 14px;font-size:1.05rem}
+.ev-grid{display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start;margin-top:18px}
+.ev-grid h3{font-size:1.3rem;margin:30px 0 10px}.ev-grid h3:first-child{margin-top:0}
+.side{position:sticky;top:130px;background:#fff;border:2px solid var(--ink);border-radius:6px;padding:20px}
+.side h3{margin:0 0 6px!important;font-size:1.2rem!important}
+.side p{margin:0 0 12px;color:var(--mute);font-size:.93rem}
+.side .btn{width:100%;text-align:center}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.gal img{width:100%;height:125px;object-fit:cover;border-radius:3px;display:block;transition:transform .2s}
+.gal a:hover img{transform:scale(1.03)}
+.plan{width:100%;border:1px solid var(--line);border-radius:3px;margin-bottom:8px;display:block}
+.scrollx{overflow-x:auto}
+.bt{width:100%;border-collapse:collapse;font-size:.95rem}
+.bt th,.bt td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}.bt th{color:var(--mute)}
+ul.inc{padding-left:20px;margin:0}ul.inc li{margin-bottom:4px}
+
+/* calendar */
+.calwrap{display:block}.cal{max-width:640px}
+.monthside{margin-top:30px}.monthside h3{font-size:1.3rem;margin-bottom:10px}
+.mrow{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-left:6px solid var(--sun);border-radius:4px;padding:10px 14px;margin-bottom:8px;transition:transform .2s}.mrow:hover{transform:translateX(4px)}.mrow b{display:block;font:var(--hw) 1.05rem var(--head)}.mrow span{display:block;color:var(--mute);font-size:.88rem}
+.filters{display:block}
+.ch{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.ch strong{font:var(--hw) 1.3rem var(--head);margin-right:auto}
+.ch button{width:38px;height:38px;border:2px solid var(--ink);background:transparent;border-radius:4px;font-size:1.1rem;cursor:pointer}
+.ch button:hover{background:var(--ink);color:#fff}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.cg>*{border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-height:54px;padding:4px 6px;font-size:.82rem;background:none;text-align:left;font-family:inherit;color:inherit}
+.cg .dw{min-height:0;font-weight:600;color:var(--mute);background:#ecede5}
+.cg button{cursor:pointer;transition:background .15s}
+.cg .on{background:var(--sun)}
+.cg .on:hover,.cg .pick{outline:2px solid var(--ink);outline-offset:-2px}
+.cg .on small{display:block;font-size:.66rem;line-height:1.15;margin-top:2px}
+#dayinfo{margin-top:16px;min-height:30px}
+.dayc{background:#fff;border:1px solid var(--line);border-left:6px solid var(--pink);border-radius:4px;padding:12px 14px;margin-bottom:10px;animation:enter .3s ease-out}
+.dayc b{font:var(--hw) 1.1rem var(--head)}.dayc p{margin:2px 0 8px;color:var(--mute);font-size:.93rem}
+
+/* how it works + faq */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.steps li{counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--red);color:#fff;font:var(--hw) 1.1rem var(--head);margin-bottom:10px}
+.steps b{font:var(--hw) 1.15rem var(--head);display:block}
+.steps span{color:var(--mute);font-size:.95rem}
+details.faq{border-bottom:1px solid var(--line);padding:14px 0}
+details.faq summary{font:var(--hw) 1.15rem var(--head);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--red)}
+details.faq[open] summary::after{content:"\2212"}
+details.faq[open] p{animation:enter .25s ease-out}
+details.faq p{margin:10px 0 0;color:var(--mute);max-width:46em}
+.cta{background:var(--ink);color:#fff;border-radius:6px;padding:34px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.cta h2{font-size:1.7rem!important;margin:0!important}.cta p{margin:4px 0 0;color:#cfd2da}
+.cta .btn{background:var(--sun);border-color:var(--sun);color:var(--ink)}.cta .btn:hover{background:#fff;border-color:#fff}
+
+/* contact */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:760px}
+.cc{display:block;background:#fff;border:2px solid var(--ink);border-radius:6px;padding:20px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 6px 0 var(--c,var(--pink))}
+.cc h3{font-size:1.2rem;margin-bottom:4px}.cc p{margin:0;color:var(--mute);font-size:.93rem;word-break:break-word}
+
+footer{background:var(--ink);color:#dfe4ee;padding:36px 0 100px}
+footer a{color:#fff}
+footer .wrap{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between}
+footer h3{color:#fff;font-size:1.3rem;margin-bottom:6px}
+
+/* whatsapp */
+.wa{position:fixed;right:16px;bottom:16px;z-index:30;display:flex;align-items:center;gap:9px;background:#1fa855;color:#fff;font-weight:600;text-decoration:none;padding:12px 18px 12px 14px;border-radius:40px;box-shadow:0 6px 18px rgba(0,0,0,.28);transition:transform .2s}
+.wa:hover{background:#178a45;transform:translateY(-3px)}
+.wa svg{width:26px;height:26px;fill:#fff}
+
+/* booking dialog */
+dialog{border:0;border-radius:6px;padding:26px;width:min(480px,94vw);max-height:92vh;overflow:auto;background:var(--paper);color:var(--ink)}
+dialog[open]{animation:pop .22s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+dialog::backdrop{background:rgba(27,42,65,.6)}
+dialog h2{font-size:1.6rem;margin-bottom:12px}
+label{display:block;font-weight:600;font-size:.88rem;margin-top:12px}
+label small{font-weight:400;color:var(--mute)}
+input,select,textarea{width:100%;font:inherit;padding:9px 10px;border:2px solid var(--line);border-radius:4px;background:#fff;color:var(--ink);margin-top:4px}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);outline:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hp{position:absolute;left:-9999px}
+.evname{font:var(--hw) 1.2rem var(--head);margin:0 0 2px}.evname small{display:block;font:400 .9rem var(--body);color:var(--mute)}
+.total{margin:14px 0 0;background:#fff;border:2px solid var(--ink);border-radius:6px;padding:12px 14px;font-size:.95rem}.total b{display:block;font:var(--hw) 1.6rem var(--head);line-height:1.1}.total span{color:var(--mute);font-size:.88rem}
+.sum{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin:0 0 14px}.sum b{font:var(--hw) 1.5rem var(--head)}
+#err{color:#c62828;font-weight:600;min-height:1.2em;margin:10px 0 0}
+
+@media(min-width:1000px){
+ .wrap{max-width:1200px;padding:0 40px}
+ header .bar{padding-top:14px;padding-bottom:14px}.brand img{height:56px}
+ header nav{gap:36px;font-size:1.05rem}
+ .hero{padding-top:70px;padding-bottom:90px;gap:70px}
+ .hero h1{font-size:4.1rem}.hero p{font-size:1.18rem}
+ .pics{height:430px}
+ .pic:nth-child(1){width:250px;height:290px;top:10px}.pic:nth-child(2){width:240px;height:280px}.pic:nth-child(3){width:260px;height:250px;left:90px}
+ .band{padding:80px 0}
+ .page{padding-top:60px}
+ .filters{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;margin-bottom:6px}.filters .search{flex:0 0 380px;margin:0}.filters .chips{margin:6px 0 0}
+ .row{grid-template-columns:110px 1fr auto;gap:30px;padding:24px 16px}
+ .row h3{font-size:1.5rem}
+ .acts{grid-template-columns:auto auto}
+ .calwrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:50px;align-items:start}
+ .cal{max-width:none}.monthside{margin-top:0}
+ .cg>*{min-height:88px;font-size:.9rem;padding:6px 8px}.cg .on small{font-size:.74rem}
+ .steps{gap:48px}
+ dialog{width:min(560px,94vw)}
+ .cards{max-width:960px}
+}
+@media(max-width:780px){
+ header .bar{flex-wrap:wrap;gap:6px 12px;padding-bottom:0}.brand img{height:40px}
+ header nav{order:3;width:100%;justify-content:space-between;gap:0;font-size:.92rem;overflow-x:auto}header nav a{padding:10px 2px 9px}
+ .hero{grid-template-columns:1fr}.pics{height:340px;max-width:420px}
+ .pic:nth-child(1){width:150px;height:180px;left:0;top:14px}.pic:nth-child(2){width:150px;height:175px;right:0;top:0}.pic:nth-child(3){width:170px;height:150px;left:calc(50% - 85px);bottom:0}
+ .row{grid-template-columns:78px 1fr;gap:14px;padding:18px 0}
+ .row .acts{grid-column:2;display:flex;flex-wrap:wrap}
+ .themes,.steps{grid-template-columns:1fr}
+ .ev-grid{grid-template-columns:1fr}.side{position:static;order:-1}
+ .two{grid-template-columns:1fr}
+ .wa span{display:none}.wa{padding:14px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---- calm and flat: type and colour do the work. No tilt, tape or texture. ---- */
+:root{--r:3px}
+.btn{border-radius:3px}
+.hero{padding-top:56px;padding-bottom:72px;gap:56px}
+.hero h1{text-wrap:balance;letter-spacing:-.03em;line-height:1}
+.hero p{color:#4a4a50}
+.hnote{margin:22px 0 0;font:600 .98rem var(--body);color:var(--ink)}
+.hnote a{color:var(--red);text-decoration:none;border-bottom:2px solid currentColor}
+.pics{display:grid!important;grid-template-columns:1.1fr .9fr;grid-template-rows:1fr 1fr;gap:10px;height:400px!important;max-width:none!important}
+.pic{position:static!important;width:auto!important;height:auto!important;transform:none!important;padding:0!important;background:none!important;box-shadow:none!important;overflow:hidden;border-radius:2px;margin:0}
+.pic::before{display:none!important}
+.pic:nth-child(1){grid-row:1/3}
+.pic div{font:600 .9rem var(--body)!important;color:rgba(24,24,24,.55)!important;border-radius:2px}
+.pic:nth-child(1) div{background:#ffbc5b}.pic:nth-child(2) div{background:#d3a4f2}.pic:nth-child(3) div{background:#86d3e3}
+.pics:hover .pic{transform:none!important}
+.band{border-top:1px solid var(--line);padding:72px 0}
+.themes{gap:0;border-top:2px solid var(--ink)}
+.th3{background:none!important;color:var(--ink)!important;border:0;border-radius:0;padding:22px 26px 8px 0;min-height:0;transform:none!important;display:block}
+.th3+.th3{padding-left:26px;border-left:1px solid var(--line)}
+.th3::before{content:"";display:block;width:34px;height:6px;background:var(--c);margin-bottom:14px}
+.th3:hover{transform:none!important}
+.th3 h3{font-size:1.5rem;margin-bottom:8px}
+.th3 p{color:var(--mute)!important}
+.th3 span{border-bottom:2px solid var(--c)}
+.row{background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;margin:0;padding:22px 0}
+.row:first-child{border-top:2px solid var(--ink)}
+.row:hover{background:none;box-shadow:none}
+.stub{border-radius:2px;transform:none!important}.stub::before{display:none}.stub b{margin-top:2px}
+.kind{background:none!important;border:1px solid #9a968a;border-radius:2px;padding:0 7px;font-size:.78rem;font-weight:500}
+.kind.th{border-style:solid}
+.left{font:600 .95rem var(--body);color:var(--red);display:block;margin-top:4px;line-height:1.4;overflow-wrap:anywhere}
+.page{padding-top:56px;padding-bottom:110px}
+.side{border:2px solid var(--ink);border-radius:3px;box-shadow:none}
+.side::before{display:none}
+.gal a{transform:none!important}
+.gal img{height:170px;border-radius:2px;border:0;box-shadow:none}
+.gal{gap:10px}
+.plan{border-radius:2px}
+table.bt{background:none;border:0;border-collapse:collapse}
+table.bt th{background:none;border-bottom:2px solid var(--ink);color:var(--ink)}
+.steps{gap:40px}
+.steps li{background:none;border:0;padding:0}
+.steps li::before{content:counter(s);display:block;width:auto;height:auto;border-radius:0;background:none!important;font:var(--hw) 3rem/1 var(--head);margin-bottom:8px}
+.steps li:nth-child(1)::before{color:var(--red)}.steps li:nth-child(2)::before{color:#e0449e}.steps li:nth-child(3)::before{color:var(--teal)}
+.mrow,.dayc,.cc,dialog,.total,.sum{border-radius:3px}
+.band:has(.cta){padding:64px 0 72px;background:none}
+.cta{background:var(--ink);color:#fff;border-radius:3px;padding:38px 40px;transform:none}
+.cta::before{display:none}
+.cta p{color:#d6d6dc}
+.cta .btn{background:var(--sun);border-color:var(--sun);color:var(--ink)}.cta .btn:hover{background:#fff;border-color:#fff}
+footer{background:#f1eee6;color:var(--ink);padding:0 0 110px;margin-top:0;border-top:1px solid var(--line)}
+footer::before{display:none}
+footer a{color:var(--ink)}
+footer h3{color:var(--ink);font-size:1.05rem;margin-bottom:10px}
+footer .wrap{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;padding-top:48px}
+footer .fl{margin:0;line-height:2}
+footer .fl a{text-decoration:none;border-bottom:1px solid #b9b4a6}
+footer .fl a:hover{border-color:var(--ink)}
+footer .legal{grid-column:1/-1;border-top:1px solid #d9d4c6;padding-top:18px;margin-top:6px;font-size:.88rem;color:#6b675c}
+footer .btn{background:var(--ink)!important;border-color:var(--ink)!important;color:#fff!important}
+@media(max-width:780px){
+ .hero{padding-top:36px;padding-bottom:48px;gap:30px}
+ .pics{height:300px!important}
+ .themes{border-top:0}
+ .th3,.th3+.th3{padding:18px 0 14px;border-left:0;border-top:1px solid var(--line)}
+ .th3:first-child{border-top:2px solid var(--ink)}
+ .row{grid-template-columns:78px 1fr;padding:18px 0}
+ footer .wrap{grid-template-columns:1fr;gap:26px}
+ .cta{padding:28px 24px}
+}
+/* ---- vendor/shopper features ---- */
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.9rem;margin-top:12px}
+.chk input{width:auto;margin-top:3px;flex:none}
+.chk a{color:var(--red)}
+.forget{background:none;border:0;padding:0;font:inherit;font-size:.85rem;color:var(--mute);text-decoration:underline;cursor:pointer}
+.vend{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:0 24px}
+.vend li{padding:10px 0;border-bottom:1px solid var(--line)}
+.vend b{display:block}.vend span{color:var(--mute);font-size:.88rem}
+.vend a{color:var(--ink)}
+.pgal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px}
+.pgal figure{margin:0}.pgal img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:2px}
+.pgal figcaption{font-size:.88rem;color:var(--mute);margin-top:6px}
+.pq{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px}
+.pq blockquote{margin:0;border-left:4px solid var(--c,var(--pink));padding-left:18px}
+.pq p{font:var(--hw) 1.25rem/1.35 var(--head);margin:0 0 8px}
+.pq cite{font-style:normal;color:var(--mute);font-size:.92rem}
+.join{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
+.join h2{margin-bottom:8px}
+.join form{display:grid;gap:10px}
+.join .two{gap:10px}
+.join .ok{font-weight:600;margin:6px 0 0}
+.join .no{color:#b3261e;font-weight:600;margin:6px 0 0}
+.join label{margin-top:0}
+.packbody{white-space:pre-line;max-width:42em;font-size:1.02rem}
+.termsbody{max-width:42em}.termsbody p{margin:0 0 14px}
+@media(max-width:780px){.pgal{grid-template-columns:1fr 1fr}.join{grid-template-columns:1fr;gap:20px}}
+
+.banner{background:var(--sun);color:#2b2008;text-align:center;font-weight:600;font-size:.95rem;padding:9px 20px}
+/* looks */
+html[data-look=editorial]{--head:Fraunces,Georgia,serif;--body:"DM Sans",system-ui,sans-serif;--hw:700;--paper:#faf6ef}
+html[data-look=warm]{--head:"Young Serif",Georgia,serif;--body:Figtree,system-ui,sans-serif;--hw:400;--paper:#fcf7f1}
+html[data-look=modern]{--head:"Space Grotesk",system-ui,sans-serif;--body:Inter,system-ui,sans-serif;--hw:700;--paper:#f7f7f5}
+#looks{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;height:44px;align-items:center;z-index:40;background:#fff;border:2px solid #181818;border-radius:40px;padding:4px;display:flex;gap:2px;font:600 .8rem system-ui}
+#looks button{border:0;background:none;color:#181818;padding:6px 10px;border-radius:30px;cursor:pointer;font:inherit}
+#looks button[aria-pressed=true]{background:#181818;color:#fff}
+@media(max-width:760px){#looks{bottom:72px}footer{padding-bottom:150px}}
+</style>
+</head>
+<body>
+<div class="awning" aria-hidden="true" id="awning"></div>
+<header><div class="wrap bar">
+  <a class="brand" href="#/"><img src="img/logo.png" alt="Backyard Events SG"></a>
+  <nav aria-label="Main">
+    <a href="#/" data-v="home">Home</a><a href="#/events" data-v="events">Events</a><a href="#/calendar" data-v="calendar">Calendar</a><a href="#/info" data-v="info">How it works</a><a href="#/contact" data-v="contact">Contact</a>
+  </nav>
+  <a class="btn sm" href="#/events">Reserve a booth</a>
+</div></header>
+
+<div id="banner" class="banner" hidden></div>
+<main>
+
+<!-- HOME -->
+<div class="view" id="v-home">
+  <div class="wrap hero">
+    <div>
+      <h1 tabindex="-1" id="heroH">Where Singapore's makers meet their next customers.</h1>
+      <p id="heroP">Backyard Events SG organises craft fairs and atrium pop-up booths in malls and community spaces across Singapore. Choose your event, reserve your booth online in a couple of minutes, and our team will take care of the rest.</p>
+      <div class="btns"><a class="btn" href="#/events">Browse upcoming events</a><a class="btn plain" href="#/info">How booking works</a></div>
+      <p class="hnote" id="hnote" hidden></p>
+    </div>
+    <div class="pics" id="heroPics">
+      <figure class="pic"><div>your event photo<img src="img/1.jpg" alt="" onerror="this.remove()"></div></figure>
+      <figure class="pic"><div>your event photo<img src="img/2.jpg" alt="" onerror="this.remove()"></div></figure>
+      <figure class="pic"><div>your event photo<img src="img/3.jpg" alt="" onerror="this.remove()"></div></figure>
+    </div>
+  </div>
+
+  <div class="band"><div class="wrap">
+    <h2>Markets with a point of view</h2>
+    <p class="lede">Every Backyard Events market is curated around a theme, so shoppers know what to expect and your brand sits among the right company.</p>
+    <div class="themes" id="themeBox">
+      <a class="th3" href="#/events" onclick="filt='Sustainability'" style="--c:var(--teal)"><h3>Sustainability</h3><p>Mindful brands with low-waste, reusable, upcycled and thoughtfully made products.</p><span>See sustainability markets</span></a>
+      <a class="th3" href="#/events" onclick="filt='Handmade'" style="--c:var(--pink)"><h3>Handmade</h3><p>Independent makers selling small-batch, hand-crafted pieces.</p><span>See handmade markets</span></a>
+      <a class="th3" href="#/events" onclick="filt='Festive'" style="--c:var(--sun)"><h3>Festive</h3><p>Seasonal markets for celebrations such as Chinese New Year and Christmas.</p><span>See festive markets</span></a>
+    </div>
+  </div></div>
+
+  <div class="band"><div class="wrap">
+    <h2>Coming up next</h2>
+    <p class="lede">The next dates open for booking.</p>
+    <div id="homeList"><p class="empty">Loading events...</p></div>
+    <p class="more"><a class="btn plain" href="#/events">See all events</a></p>
+  </div></div>
+
+  <div class="band" id="pastBand" hidden><div class="wrap">
+    <h2>From past markets</h2>
+    <p class="lede">A look at recent Backyard Events markets, and what vendors say about them.</p>
+    <div class="pgal" id="pastGal"></div>
+    <div class="pq" id="pastQ"></div>
+  </div></div>
+
+  <div class="band"><div class="wrap"><div class="join" id="joinHome"></div></div></div>
+
+  <div class="band"><div class="wrap">
+    <div class="cta"><div><h2>Not sure which market is right for you?</h2><p>Tell us what you make and we'll say which one fits. A real person replies on WhatsApp.</p></div><a class="btn" id="homeWa" target="_blank" rel="noopener">Chat with our team</a></div>
+  </div></div>
+</div>
+
+<!-- EVENTS -->
+<div class="view" id="v-events"><div class="wrap page">
+  <h1 tabindex="-1">Upcoming events</h1>
+  <p class="lede">Find a date that suits your brand and reserve your booth online. Can't see the right slot? Message us and we'll do our best to arrange one.</p>
+  <div class="filters"><input class="search" id="q" type="search" placeholder="Search by event, mall or theme" aria-label="Search events" oninput="renderList()">
+  <div class="chips" id="chips"></div></div>
+  <div id="list"><p class="empty">Loading events...</p></div>
+</div></div>
+
+<!-- EVENT DETAIL -->
+<div class="view" id="v-event"><div class="wrap page" id="evBody"></div></div>
+
+<!-- CALENDAR -->
+<div class="view" id="v-calendar"><div class="wrap page">
+  <h1 tabindex="-1">Event calendar</h1>
+  <p class="lede">Highlighted dates have an event on. Select a date to see the details.</p>
+  <div class="calwrap">
+    <div class="cal">
+      <div class="ch"><strong id="mlabel"></strong><button onclick="mv(-1)" aria-label="Previous month">&#8249;</button><button onclick="mv(1)" aria-label="Next month">&#8250;</button></div>
+      <div class="cg" id="cg"></div>
+      <div id="dayinfo"></div>
+    </div>
+    <aside class="monthside"><h3 id="monthT"></h3><div id="monthList"></div></aside>
+  </div>
+</div></div>
+
+<!-- TERMS -->
+<div class="view" id="v-terms"><div class="wrap page">
+  <h1 tabindex="-1">Booking terms</h1>
+  <div class="termsbody" id="termsBody"></div>
+</div></div>
+
+<!-- VENDOR INFO PACK (private link) -->
+<div class="view" id="v-pack"><div class="wrap page">
+  <h1 tabindex="-1" id="packH">Vendor info</h1>
+  <div class="packbody" id="packBody"></div>
+</div></div>
+
+<!-- HOW IT WORKS -->
+<div class="view" id="v-info"><div class="wrap page">
+  <h1 tabindex="-1">Booking made simple</h1>
+  <p class="lede">Reserve your space in three easy steps. No paperwork and no account to create.</p>
+  <ol class="steps">
+    <li><b>Choose your event</b><span>Pick the date that suits you and share a few details about your brand and the booths you need.</span></li>
+    <li><b>We confirm with you</b><span>Message us on WhatsApp and we'll confirm your booking and share the PayNow payment details there.</span></li>
+    <li><b>Secure your booth</b><span>Once your payment is confirmed on WhatsApp, your space is reserved and we'll send everything you need for set-up day.</span></li>
+  </ol>
+  <h2 style="font-size:1.8rem;margin:56px 0 6px">Common questions</h2>
+  <p class="lede">Quick answers before you book. Anything else, just message us.</p>
+<div id="faqList">
+  <details class="faq"><summary>How long can I book a booth for?</summary><p>Booths are booked for either a weekend or a full week. Each event's details show which lengths are available and the price for each.</p></details>
+  <details class="faq"><summary>How much will it cost?</summary><p>Every event shows its booth prices upfront, for a weekend or a full week, and the booking form shows your total before you send it.</p></details>
+  <details class="faq"><summary>How do I reserve a booth?</summary><p>Open an event, choose your booth type and booking length, and send us your details. Then confirm on WhatsApp and we'll complete your booking with you there.</p></details>
+  <details class="faq"><summary>How do I pay?</summary><p>Payment is confirmed on WhatsApp. After you send your request, we'll share the PayNow details with you there, and your booth is reserved once we confirm your payment.</p></details>
+  <details class="faq"><summary>What's included with my booth?</summary><p>It depends on the event. Open any event to see what's provided, along with the floor plan and photos of the space.</p></details>
+  <details class="faq"><summary>Can I book more than one booth?</summary><p>Yes, you can request several booths in one booking. For larger setups, message us and we'll help you plan it.</p></details>
+  <details class="faq"><summary>Will my products suit your markets?</summary><p>Our markets are curated around sustainability, handmade and festive themes. If you're not sure whether your products fit, message us and we'll let you know.</p></details>
+</div>
+  <p class="more"><a class="btn" href="#/events">Browse upcoming events</a></p>
+</div></div>
+
+<!-- CONTACT -->
+<div class="view" id="v-contact"><div class="wrap page">
+  <h1 tabindex="-1">Get in touch</h1>
+  <p class="lede">We reply fastest on WhatsApp. Pick whichever way suits you.</p>
+  <div class="cards">
+    <a class="cc" id="cWa" target="_blank" rel="noopener" style="--c:#1fa855"><h3>WhatsApp</h3><p>Chat with our team</p></a>
+    <a class="cc" id="cMail" style="--c:var(--sun)"><h3>Email</h3><p id="cMailT"></p></a>
+    <a class="cc" id="cIg" target="_blank" rel="noopener" style="--c:var(--pink)"><h3>Instagram</h3><p>See our latest markets</p></a>
+    <a class="cc" id="cFb" target="_blank" rel="noopener" style="--c:var(--teal)" hidden><h3>Facebook</h3><p>Follow our updates</p></a>
+  </div>
+  <div class="join" style="margin-top:64px"></div>
+</div></div>
+
+</main>
+
+<footer><div class="wrap">
+  <div><h3>Backyard Events SG</h3><p style="margin:0 0 14px;max-width:26em">Craft fairs and atrium pop-up booths across Singapore. We run them for makers, and for the people who love buying from them.</p><a class="btn" id="fWa" target="_blank" rel="noopener" style="background:var(--sun);border-color:var(--sun);color:var(--ink)">Chat on WhatsApp</a></div>
+  <div><h3>Explore</h3><p class="fl"><a href="#/events">Events</a><br><a href="#/calendar">Calendar</a><br><a href="#/info">How it works</a><br><a href="#/contact">Contact</a></p></div>
+  <div><h3>Get in touch</h3><p class="fl"><a id="fMail"></a><br><a id="fIg" target="_blank" rel="noopener">Instagram</a></p></div>
+  <p class="legal">&copy; Backyard Events SG. Singapore.</p>
+</div></footer>
+
+<a class="wa" id="waBtn" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/></svg>
+  <span>Chat with us</span>
+</a>
+
+<dialog id="dlg">
+  <form id="form" method="dialog">
+    <h2 id="fH">Reserve your booth</h2>
+    <p id="fEventName" class="evname" hidden></p>
+    <label id="fEventL">Event<select id="fEvent" name="event_id" required onchange="fillBooths()"></select></label>
+    <label id="fBoothL">Booth type<select id="fBooth" name="booth_type" onchange="fillDur()"></select></label>
+    <label>Booking length<select id="fDur" name="duration" onchange="calc()"></select></label>
+    <div class="two">
+      <label>Your name<input name="name" required autocomplete="name"></label>
+      <label>Brand or business<input name="business"></label>
+    </div>
+    <div class="two">
+      <label>WhatsApp number<input name="phone" type="tel" required autocomplete="tel" placeholder="9123 4567"></label>
+      <label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+    </div>
+    <label>Brand category<select name="category" required id="fCat"></select></label>
+    <label id="fSocL"><span id="fSocT">Instagram or Facebook link <small>(optional)</small></span><input name="social" type="text" inputmode="url" autocomplete="off" placeholder="instagram.com/yourshop"></label>
+    <label>Number of booths<input name="qty" type="number" min="1" max="20" value="1" oninput="calc()"></label>
+    <p class="total" id="total"></p>
+    <label><span id="fNoteT">Tell us about your products</span><textarea name="note" rows="2"></textarea></label>
+    <label class="chk" id="fTerms" hidden><input type="checkbox" name="terms"><span>I agree to the <a href="#/terms" target="_blank" rel="noopener">booking terms</a>.</span></label>
+    <label class="chk"><input type="checkbox" id="fRem" checked><span>Remember my details on this device for next time. <button type="button" class="forget" onclick="forgetMe()">Clear saved details</button></span></label>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p id="err" role="alert"></p>
+    <p id="fHint" style="margin:12px 0 0;color:var(--mute);font-size:.9rem">After you send this, we'll confirm your booking and payment with you on WhatsApp.</p>
+    <p style="display:flex;gap:10px;margin:14px 0 0"><button class="btn" type="submit" id="send">Send booking request</button><button class="btn plain" type="button" onclick="dlg.close()">Cancel</button></p>
+  </form>
+  <div id="thanks" hidden>
+    <h2 id="thanksH">Your request is saved</h2>
+    <div class="sum" id="sum"></div>
+    <p id="thanksP">One last step: send us a WhatsApp message to confirm your booking. Your booking and payment are both confirmed there.</p>
+    <p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" id="thanksWa" target="_blank" rel="noopener">Confirm on WhatsApp</a><button class="btn plain" onclick="dlg.close()">Close</button></p>
+  </div>
+</dialog>
+
+<script>
+// ---- change these ----
+var C={wa:"6590267588",email:"hello@backyardeventssg.com",ig:"https://instagram.com/",fb:""};
+// ----------------------
+var $=function(s){return document.querySelector(s)};
+var dlg=$("#dlg"),events=[],cur=new Date(),sel=null,filt="All",loaded=false,inT;
+var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML}
+function wa(t){return"https://wa.me/"+C.wa+"?text="+encodeURIComponent(t||"")}
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function parts(s){var p=s.split("-");return{y:+p[0],m:+p[1]-1,d:+p[2]}}
+function nice(s){var p=parts(s);return p.d+" "+MON[p.m]+" "+p.y}
+function span(e){return e.end_date&&e.end_date!==e.start_date?nice(e.start_date)+" to "+nice(e.end_date):nice(e.start_date)}
+function img(k){return k.indexOf("data:")===0?k:"/api/img/"+k}
+function group(t){return(t||"").indexOf("Festive")===0?"Festive":(t||"")}
+function minOf(e,k){var p=(e.booths||[]).map(function(b){return+b[k]}).filter(function(n){return n>0});return p.length?Math.min.apply(null,p):null}
+function cell(n){return n>0?"$"+n:"-"}
+function upcoming(){var t=iso(new Date());return events.filter(function(e){return e.end_date>=t})}
+function byId(id){return events.find(function(x){return String(x.id)===String(id)})}
+
+for(var i=0;i<60;i++){var a=document.createElement("i");a.style.setProperty("--n",i);$("#awning").appendChild(a)}
+var CATS=["Food & beverage","Jewellery & accessories","Fashion & apparel","Art & prints","Home & living","Beauty & wellness","Plants & florals","Kids & toys","Stationery & crafts","Zero-waste & sustainable","Other"];
+function links(){
+  $("#waBtn").href=wa("Hi Backyard Events SG, I need some help.");$("#homeWa").href=wa("Hi! I'd like help choosing a market.");
+  $("#cWa").href=wa("Hi!");$("#cMail").href="mailto:"+C.email;$("#cMailT").textContent=C.email;
+  $("#cIg").href=C.ig;$("#cIg").hidden=!C.ig;$("#fWa").href=wa("Hi!");$("#fMail").href="mailto:"+C.email;$("#fMail").textContent=C.email;$("#fIg").href=C.ig;$("#fIg").hidden=!C.ig;if(C.fb){$("#cFb").href=C.fb;$("#cFb").hidden=false}else $("#cFb").hidden=true}
+function fillCats(){$("#fCat").innerHTML='<option value="">Choose your brand category</option>'+CATS.map(function(c){return"<option>"+esc(c)+"</option>"}).join("")}
+/* Content edited in the admin. Anything not set there keeps the wording written in this page. */
+function applySite(s){
+  if(!s||typeof s!=="object")return;
+  var h=s.hero||{};
+  if(h.title)$("#heroH").textContent=h.title;
+  if(h.text)$("#heroP").textContent=h.text;
+  (h.photos||[]).forEach(function(k,i){var d=document.querySelectorAll("#heroPics figure div")[i];if(!d||!k)return;
+    var old=d.querySelector("img");if(old)old.remove();var im=document.createElement("img");im.alt="";im.src=img(k);im.onerror=function(){im.remove()};d.appendChild(im)});
+  var c=s.contact||{};if(c.wa)C.wa=c.wa;if(c.email)C.email=c.email;if(c.ig!==undefined)C.ig=c.ig;if(c.fb!==undefined)C.fb=c.fb;
+  if(Array.isArray(s.faq)&&s.faq.length)$("#faqList").innerHTML=s.faq.map(function(f){return'<details class="faq"><summary>'+esc(f.q)+'</summary><p>'+esc(f.a)+'</p></details>'}).join("");
+  (s.themes||[]).forEach(function(t,i){var p=document.querySelectorAll("#themeBox .th3 p")[i];if(p&&t.text)p.textContent=t.text});
+  var b=s.banner||{},bn=$("#banner");if(b.on&&b.text){bn.textContent=b.text;bn.hidden=false}else bn.hidden=true;
+  if(Array.isArray(s.cats)&&s.cats.length)CATS=s.cats;
+  SITE=s;renderPast();joinInit();
+  links();fillCats();
+}
+function renderPast(){
+  var g=(SITE.gallery||[]),q=(SITE.quotes||[]),cols=["var(--pink)","var(--teal)","var(--sun)","var(--red)"];
+  $("#pastBand").hidden=!(g.length||q.length);
+  $("#pastGal").innerHTML=g.map(function(x){return'<figure><img src="'+img(x.key)+'" alt="'+esc(x.caption||"Photo from a past market")+'" loading="lazy">'+(x.caption?'<figcaption>'+esc(x.caption)+'</figcaption>':'')+'</figure>'}).join("");
+  $("#pastQ").innerHTML=q.map(function(x,i){return'<blockquote style="--c:'+cols[i%4]+'"><p>'+esc(x.text)+'</p>'+(x.name?'<cite>'+esc(x.name)+'</cite>':'')+'</blockquote>'}).join("");
+}
+function renderTerms(){
+  var t=(SITE.terms&&SITE.terms.text)||"";
+  $("#termsBody").innerHTML=t?t.split(/\n\s*\n/).map(function(x){return'<p>'+esc(x).replace(/\n/g,"<br>")+'</p>'}).join(""):'<p>Our booking terms are available on request. <a href="'+wa("Hi! Could I see your booking terms?")+'" target="_blank" rel="noopener">Message us on WhatsApp</a>.</p>';
+}
+async function renderPack(id,t){
+  $("#packH").textContent="Vendor info";$("#packBody").textContent="Loading...";
+  try{var r=await fetch("/api/pack/"+encodeURIComponent(id)+"?t="+encodeURIComponent(t));var j=await r.json();
+    if(!r.ok)throw 0;$("#packH").textContent=j.title+": vendor info";$("#packBody").textContent=j.pack;document.title=j.title+" vendor info | Backyard Events SG"}
+  catch(x){$("#packBody").innerHTML='This link isn\'t working. Please <a href="'+wa("Hi! My vendor info link isn't working.")+'" target="_blank" rel="noopener">message us on WhatsApp</a> and we\'ll send it again.'}
+}
+/* WhatsApp list for shoppers */
+function joinHtml(){return'<div><h2>Hear about the next market first</h2><p class="lede" style="margin:0">Join our WhatsApp list and we\'ll message you when new markets open. No spam, and you can leave any time.</p></div>'+
+ '<form class="jf"><div class="two"><input name="name" placeholder="Your name" required autocomplete="name" aria-label="Your name"><input name="phone" type="tel" placeholder="WhatsApp number" required autocomplete="tel" aria-label="WhatsApp number"></div>'+
+ '<label class="chk"><input type="checkbox" name="consent" required><span>I agree to receive WhatsApp messages from Backyard Events SG about upcoming markets. I can reply STOP to leave the list.</span></label>'+
+ '<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><div><button class="btn" type="submit">Join the WhatsApp list</button></div><p class="msg" role="status"></p></form>'}
+function joinInit(){document.querySelectorAll(".join").forEach(function(d){if(d.dataset.on)return;d.dataset.on=1;d.innerHTML=joinHtml();
+  d.querySelector("form").addEventListener("submit",async function(ev){ev.preventDefault();var f=this,m=f.querySelector(".msg"),b=Object.fromEntries(new FormData(f).entries());b.consent=!!b.consent;m.className="msg";m.textContent="";
+    try{var r=await fetch("/api/subscribe",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)});var j=await r.json();if(!r.ok)throw new Error(j.error||"Please try again.");
+      f.reset();m.className="msg ok";m.textContent="You're on the list. We'll message you when the next market opens."}
+    catch(x){m.className="msg no";m.textContent=x.message}})})}
+joinInit();
+links();fillCats();
+
+/* ---------- event rows ---------- */
+function isFull(e){return !e.apply&&e.slots>0&&e.slots-e.booked<=0}
+function ctaLabel(e){return e.apply?"Apply for a booth":isFull(e)?"Join the waitlist":"Reserve a booth"}
+function rowHtml(e,i){
+  var s=parts(e.start_date),f=parts(e.end_date),left=e.slots?Math.max(0,e.slots-e.booked):null,wk=minOf(e,'weekend'),fw=minOf(e,'week');
+  return'<div class="row" style="--i:'+i+'"><div class="stub"><span>'+MON[s.m]+'</span><b>'+s.d+'</b>'+(e.end_date!==e.start_date?'<small>to '+f.d+' '+MON[f.m]+'</small>':'')+'</div>'+
+  '<div><span class="kind">'+esc(e.kind)+'</span>'+(e.theme?'<span class="kind th">'+esc(e.theme)+'</span>':'')+'<h3>'+esc(e.title)+'</h3><p>'+esc(e.venue)+(wk?'. Weekend from $'+wk:'')+(fw?'. Full week from $'+fw:'')+(e.apply?'. <span class="left">By application</span>':left!==null?'. <span class="left">'+(left?left+' booths left':'Full, waitlist open')+'</span>':'')+'</p>'+(e.description?'<p>'+esc(e.description)+'</p>':'')+'</div>'+
+  '<div class="acts"><a class="btn plain" href="#/event/'+e.id+'">View details</a><button class="btn" onclick="book('+e.id+')">'+ctaLabel(e)+'</button></div></div>';
+}
+function noEvents(msg){return'<p class="empty">'+msg+' <a href="'+wa("Hi! When is your next event?")+'" target="_blank" rel="noopener">Message us on WhatsApp</a> to hear about upcoming dates.</p>'}
+function renderHome(){
+  var up=upcoming().slice(0,3);
+  if(loaded&&up[0]){var hn=$("#hnote");hn.innerHTML="Next market: <a href=\"#/event/"+up[0].id+"\">"+esc(up[0].title)+"</a>, "+nice(up[0].start_date);hn.hidden=false}
+  $("#homeList").innerHTML=loaded?(up.length?up.map(rowHtml).join(""):noEvents("No events are open for booking right now.")):'<p class="empty">Loading events...</p>';
+}
+function setFilt(c){filt=c;renderList()}
+function renderList(){
+  var up=upcoming(),qv=($("#q").value||"").trim().toLowerCase();
+  var shown=up.filter(function(e){return(filt==="All"||group(e.theme)===filt)&&(!qv||[e.title,e.venue,e.theme,e.kind,e.description].join(" ").toLowerCase().indexOf(qv)>-1)});
+  $("#chips").innerHTML=up.length?["All","Sustainability","Handmade","Festive"].map(function(c){return'<button class="chip'+(c===filt?' on':'')+'" onclick="setFilt(\''+c+'\')">'+c+'</button>'}).join(""):"";
+  $("#list").innerHTML=!loaded?'<p class="empty">Loading events...</p>':shown.length?shown.map(rowHtml).join(""):(up.length?noEvents("No events match that search yet. Try another word or theme, or"):noEvents("No events are open for booking right now."));
+  fillBooths();
+}
+function fillEvSel(){var cv=$("#fEvent").value;$("#fEvent").innerHTML=upcoming().map(function(e){return'<option value="'+e.id+'">'+esc(e.title)+' ('+esc(span(e))+')</option>'}).join("");if(cv)$("#fEvent").value=cv}
+
+/* ---------- event page ---------- */
+function renderEvent(id){
+  var e=byId(id),box=$("#evBody");
+  if(!loaded){box.innerHTML='<p class="empty">Loading event...</p>';return}
+  if(!e){box.innerHTML='<a class="back" href="#/events">&larr; All events</a><h1 tabindex="-1">We couldn\'t find that event</h1><p class="lede">It may have finished or been removed. <a href="#/events">See what\'s on now</a>.</p>';return}
+  var im=e.images||[],sp=im.filter(function(i){return i.kind==="space"}),ly=im.filter(function(i){return i.kind==="layout"}),inc=(e.includes||"").split("\n").map(function(x){return x.trim()}).filter(Boolean),bs=e.booths||[];
+  var left=e.slots?Math.max(0,e.slots-e.booked):null,wk=minOf(e,'weekend'),fw=minOf(e,'week');
+  var h='<a class="back" href="#/events">&larr; All events</a><h1 tabindex="-1">'+esc(e.title)+'</h1>'+
+   '<p style="margin:8px 0 0"><span class="kind">'+esc(e.kind)+'</span>'+(e.theme?'<span class="kind th">'+esc(e.theme)+'</span>':'')+'</p>'+
+   '<p class="dmeta">'+esc(span(e))+'<br>'+esc(e.venue)+'</p><div class="ev-grid"><div>';
+  if(e.description)h+='<p style="margin:0 0 6px;max-width:38em">'+esc(e.description)+'</p>';
+  if(sp.length)h+='<h3>The space</h3><div class="gal">'+sp.map(function(i){return'<a href="'+img(i.key)+'" target="_blank" rel="noopener"><img src="'+img(i.key)+'" alt="Photo of the event space" loading="lazy"></a>'}).join("")+'</div>';
+  if(ly.length)h+='<h3>Floor plan</h3>'+ly.map(function(i){return'<a href="'+img(i.key)+'" target="_blank" rel="noopener"><img class="plan" src="'+img(i.key)+'" alt="Event floor plan" loading="lazy"></a>'}).join("");
+  if(bs.length)h+='<h3>Booth options and pricing</h3><div class="scrollx"><table class="bt"><thead><tr><th>Booth</th><th>Size</th><th>Weekend</th><th>Full week</th></tr></thead><tbody>'+bs.map(function(b){return'<tr><td>'+esc(b.name)+'</td><td>'+esc(b.size)+'</td><td>'+((+b.weekend>0||+b.week>0)?cell(+b.weekend):'Ask us')+'</td><td>'+cell(+b.week)+'</td></tr>'}).join("")+'</tbody></table></div>';
+  var vs=e.vendors||[];
+  if(vs.length)h+='<h3>Who\'s selling</h3><ul class="vend">'+vs.map(function(v){var u=safeUrl(v.social);return'<li><b>'+(u?'<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(v.business)+'</a>':esc(v.business))+'</b><span>'+esc(v.category||"")+'</span></li>'}).join("")+'</ul>';
+  if(inc.length)h+='<h3>What\'s included</h3><ul class="inc">'+inc.map(function(x){return'<li>'+esc(x)+'</li>'}).join("")+'</ul>';
+  h+='</div><aside class="side"><h3>Reserve a booth</h3><p>'+(wk?'Weekend from $'+wk:'')+(wk&&fw?'<br>':'')+(fw?'Full week from $'+fw:'')+(!wk&&!fw?'Message us for pricing.':'')+(e.apply?'<br><b class="left">By application. We review every request.</b>':left!==null?'<br><b class="left">'+(left?left+' booths left':'Full. Join the waitlist and we\'ll message you if a space opens.')+'</b>':'')+'</p><button class="btn" onclick="book('+e.id+')">'+ctaLabel(e)+'</button></aside></div>';
+  box.innerHTML=h;
+}
+
+/* ---------- calendar ---------- */
+function renderCal(){
+  var y=cur.getFullYear(),m=cur.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
+  $("#mlabel").textContent=new Date(y,m,1).toLocaleDateString("en-SG",{month:"long",year:"numeric"});
+  var h="SMTWTFS".split("").map(function(d){return'<div class="dw">'+d+'</div>'}).join("");
+  for(var i=0;i<first;i++)h+="<div></div>";
+  for(var d=1;d<=n;d++){
+    var k=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
+    var on=events.filter(function(e){return e.start_date<=k&&e.end_date>=k});
+    h+=on.length?'<button class="on'+(sel===k?' pick':'')+'" onclick="pickDay(\''+k+'\')">'+d+'<small>'+esc(on[0].title)+'</small></button>':'<div>'+d+'</div>';
+  }
+  $("#cg").innerHTML=h;
+  var ms=iso(new Date(y,m,1)),me=iso(new Date(y,m,n)),inMonth=events.filter(function(e){return e.start_date<=me&&e.end_date>=ms});
+  $("#monthT").textContent="In "+new Date(y,m,1).toLocaleDateString("en-SG",{month:"long"});
+  $("#monthList").innerHTML=inMonth.length?inMonth.map(function(e){return'<a class="mrow" href="#/event/'+e.id+'"><b>'+esc(e.title)+'</b><span>'+esc(span(e))+'</span><span>'+esc(e.venue)+'</span></a>'}).join(""):'<p class="empty" style="padding:0">Nothing scheduled this month.</p>';
+  var list=sel?events.filter(function(e){return e.start_date<=sel&&e.end_date>=sel}):[];
+  $("#dayinfo").innerHTML=list.map(function(e){return'<div class="dayc"><b>'+esc(e.title)+'</b><p>'+esc(span(e))+' at '+esc(e.venue)+'</p><a class="btn sm plain" href="#/event/'+e.id+'">View details</a> <button class="btn sm" onclick="book('+e.id+')">'+ctaLabel(e)+'</button></div>'}).join("");
+}
+function mv(n){cur=new Date(cur.getFullYear(),cur.getMonth()+n,1);renderCal()}
+function pickDay(k){sel=k;renderCal()}
+
+/* ---------- booking dialog ---------- */
+function curBooth(){var e=byId($("#fEvent").value);return e&&(e.booths||[]).find(function(b){return b.name===$("#fBooth").value})}
+function fillBooths(){
+  var e=byId($("#fEvent").value),bs=(e&&e.booths)||[];
+  $("#fBooth").innerHTML=bs.map(function(b){return'<option value="'+esc(b.name)+'">'+esc(b.name)+(b.size?' ('+esc(b.size)+')':'')+'</option>'}).join("");
+  $("#fBoothL").style.display=bs.length?"":"none";
+  setMode();fillDur();
+}
+function fillDur(){
+  var b=curBooth(),o=[];
+  if(b){if(+b.weekend>0)o.push(["Weekend",b.weekend]);if(+b.week>0)o.push(["Full week",b.week])}
+  if(!o.length)o=[["Weekend",0],["Full week",0]];
+  $("#fDur").innerHTML=o.map(function(x){return'<option value="'+x[0]+'">'+x[0]+(x[1]?', $'+x[1]+' per booth':'')+'</option>'}).join("");
+  calc();
+}
+function calc(){
+  var b=curBooth(),d=$("#fDur").value,n=+document.querySelector("[name=qty]").value||1,p=b?(d==="Full week"?+b.week:+b.weekend)||0:0;
+  $("#total").innerHTML=p?'<span>'+n+' booth'+(n>1?'s':'')+' x $'+p+', '+d.toLowerCase()+'</span><b>Total: $'+(p*n)+'</b>':'<span>Price shown on the event page.</span>';
+}
+var SITE={};
+function safeUrl(v){v=String(v||"").trim();if(!v)return"";if(/^https?:\/\//i.test(v))return v;if(/^(www\.|instagram\.com|facebook\.com|fb\.com|m\.facebook\.com|tiktok\.com)/i.test(v))return"https://"+v;return""}
+function mode(){var e=byId($("#fEvent").value);return !e?"book":e.apply?"apply":isFull(e)?"wait":"book"}
+function setMode(){
+  var m=mode(),f=$("#form");
+  $("#fH").textContent=m==="apply"?"Apply for a booth":m==="wait"?"Join the waitlist":"Reserve your booth";
+  $("#send").textContent=m==="apply"?"Send application":m==="wait"?"Join the waitlist":"Send booking request";
+  $("#fHint").textContent=m==="apply"?"This market is by application. We'll look through your request and reply on WhatsApp. You only pay once you're approved.":m==="wait"?"This market is full right now. Add yourself to the waitlist and we'll message you on WhatsApp if a space opens up.":"After you send this, we'll confirm your booking and payment with you on WhatsApp.";
+  f.elements.social.required=m==="apply";f.elements.note.required=m==="apply";
+  $("#fSocT").innerHTML=m==="apply"?"Link to your products (Instagram, Facebook or website)":"Instagram or Facebook link <small>(optional)</small>";
+  $("#fNoteT").textContent=m==="apply"?"What do you sell? Tell us about your products":"Tell us about your products";
+}
+function remembered(){try{return JSON.parse(localStorage.getItem("byesg_vendor")||"null")}catch(e){return null}}
+function forgetMe(){try{localStorage.removeItem("byesg_vendor")}catch(e){}var f=$("#form");["name","business","phone","email","social"].forEach(function(k){f.elements[k].value=""});f.elements.category.value=""}
+function book(id){
+  fillEvSel();
+  $("#form").hidden=false;$("#thanks").hidden=true;$("#err").textContent="";
+  var m0=remembered(),f0=$("#form");
+  if(m0&&!f0.elements.name.value){["name","business","phone","email","social"].forEach(function(k){if(m0[k])f0.elements[k].value=m0[k]});if(m0.category&&CATS.indexOf(m0.category)>-1)f0.elements.category.value=m0.category}
+  $("#fTerms").hidden=!(SITE.terms&&SITE.terms.text);f0.elements.terms.required=!$("#fTerms").hidden;
+  if(id)$("#fEvent").value=id;
+  var e=byId($("#fEvent").value);
+  $("#fEventL").style.display=id?"none":"";
+  $("#fEventName").hidden=!(id&&e);
+  if(id&&e)$("#fEventName").innerHTML=esc(e.title)+'<small>'+esc(span(e))+', '+esc(e.venue)+'</small>';
+  fillBooths();dlg.showModal()}
+$("#fEvent").addEventListener("change",setMode);
+
+$("#form").addEventListener("submit",async function(ev){
+  ev.preventDefault();
+  var f=new FormData(this),b=Object.fromEntries(f.entries());b.terms=!!b.terms;
+  if(!b.event_id){$("#err").textContent="There are no events open for booking yet. Please message us on WhatsApp.";return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email||"")){$("#err").textContent="Please enter a valid email address so we can send your confirmation.";return}
+  $("#send").disabled=true;$("#send").textContent="Sending...";
+  try{
+    var r=await fetch("/api/book",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(b)});
+    var j=await r.json();
+    if(!r.ok)throw new Error(j.error||"Please try again.");
+    try{if($("#fRem").checked)localStorage.setItem("byesg_vendor",JSON.stringify({name:b.name,business:b.business,phone:b.phone,email:b.email,social:b.social,category:b.category}))}catch(x){}
+    var st=j.status||"New";
+    $("#thanksH").textContent=st==="Applied"?"Application received":st==="Waitlist"?"You're on the waitlist":"Your request is saved";
+    $("#thanksP").textContent=st==="Applied"?"Thanks for applying. We'll look through your application and reply on WhatsApp. You'll get a PayNow link once you're approved.":st==="Waitlist"?"This market is full right now. We'll message you on WhatsApp if a space opens up.":"One last step: send us a WhatsApp message to confirm your booking. Your booking and payment are both confirmed there.";
+    $("#thanksWa").textContent=st==="New"?"Confirm on WhatsApp":"Message us on WhatsApp";
+    var e=byId(b.event_id),bo=curBooth(),tot=j.total||((bo?(b.duration==="Full week"?+bo.week:+bo.weekend)||0:0)*(+b.qty||1));
+    var line=(+b.qty||1)+" booth"+((+b.qty||1)>1?"s":"")+(b.booth_type?" ("+b.booth_type+")":"")+", "+(b.duration||"").toLowerCase();
+    $("#sum").innerHTML='<b>'+esc(e?e.title:"Your event")+'</b><br>'+esc(line)+(tot?'<br><b>Total: $'+tot+'</b>':'');
+    $("#thanksWa").href=wa("Hi Backyard Events SG! "+(st==="Applied"?"I've just applied for a booth at ":st==="Waitlist"?"I've just joined the waitlist for ":"I'd like to confirm my booking for ")+(e?e.title:"an event")+": "+line+(tot?". Total: $"+tot:"")+". My name is "+b.name+(b.business?" ("+b.business+")":"")+".");
+    $("#form").hidden=true;$("#thanks").hidden=false;this.reset();calc();
+  }catch(x){$("#err").textContent="We couldn't send your request ("+x.message+"). Please try again or message us on WhatsApp."}
+  $("#send").disabled=false;setMode();
+});
+
+/* ---------- page routing ---------- */
+var TITLES={home:"Craft fairs and atrium pop-up booths in Singapore",events:"Upcoming events",event:"Event details",calendar:"Event calendar",info:"How booking works",contact:"Contact us",terms:"Booking terms",pack:"Vendor info"};
+function route(quiet){
+  var hq=(location.hash||"#/").split("?"),qs=new URLSearchParams(hq[1]||""),p=hq[0].replace(/^#\/?/,"").split("/"),name=p[0]||"home",arg=p[1];
+  if(!TITLES[name])name="home";
+  var v=$("#v-"+name);
+  document.querySelectorAll(".view").forEach(function(x){x.classList.remove("on")});
+  v.classList.add("on");
+  document.querySelectorAll("header nav a").forEach(function(a){a.classList.toggle("act",a.dataset.v===(name==="event"?"events":name))});
+  if(name==="home")renderHome();
+  if(name==="events")renderList();
+  if(name==="event")renderEvent(arg);
+  if(name==="calendar")renderCal();
+  if(name==="terms")renderTerms();
+  if(name==="pack")renderPack(arg,qs.get("t")||"");
+  var ev=name==="event"&&byId(arg);
+  document.title=(ev?ev.title:TITLES[name])+" | Backyard Events SG";
+  if(quiet)return;
+  v.classList.remove("in");void v.offsetWidth;v.classList.add("in");
+  clearTimeout(inT);inT=setTimeout(function(){v.classList.remove("in")},1000);
+  window.scrollTo(0,0);
+  var h=v.querySelector("h1");if(h)h.focus({preventScroll:true});
+}
+window.addEventListener("hashchange",function(){route(false)});
+
+fetch("/api/settings").then(function(r){return r.ok?r.json():{}}).then(applySite).catch(function(){});
+fetch("/api/events").then(function(r){return r.json()}).then(function(d){events=d;loaded=true;route(true)})
+ .catch(function(){loaded=true;route(true);["#homeList","#list"].forEach(function(s){$(s).innerHTML='<p class="empty">We couldn\'t load our events just now. Please message us on WhatsApp and we\'ll help right away.</p>'})});
+route(false);
+</script>
+</body>
+</html>
