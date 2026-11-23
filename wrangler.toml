@@ -5,7 +5,7 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "backyardeventssg"
-database_id = "PASTE-YOUR-DATABASE-ID-HERE"
+database_id = "ec8d8885-e447-446d-9bc9-f65d99944d75"
 
 [[r2_buckets]]
 binding = "BUCKET"
