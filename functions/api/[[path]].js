@@ -192,8 +192,15 @@ export async function onRequest({ request: r, env, params }) {
       if (bid && ["completed", "succeeded"].includes(status)) {
         const res = await db.prepare("UPDATE bookings SET status = 'Paid' WHERE id = ? AND pay_id != '' AND status != 'Paid'").bind(bid).run();
         if (res.meta && res.meta.changes) {
-          const b = await db.prepare("SELECT b.*, e.title AS t FROM bookings b LEFT JOIN events e ON e.id = b.event_id WHERE b.id = ?").bind(bid).first();
-          if (b) await sendMail(env, owners(env), `Payment received: ${b.business || b.name}`, `${b.business || b.name} paid $${b.total} for ${b.t}. The booking is now marked Paid.`);
+          const b = await db.prepare("SELECT b.*, e.title AS t, e.start_date AS sd, e.end_date AS ed, e.venue AS v FROM bookings b LEFT JOIN events e ON e.id = b.event_id WHERE b.id = ?").bind(bid).first();
+          if (b) {
+            await sendMail(env, owners(env), `Payment received: ${b.business || b.name}`, `${b.business || b.name} paid $${b.total} for ${b.t}. The booking is now marked Paid.`);
+            // Confirmation to the vendor
+            await sendMail(env, b.email, `Payment received: your booth at ${b.t}`,
+              `Hi ${b.name},\n\nThank you, we've received your payment of $${b.total}. Your booth is confirmed.\n\n` +
+              `Market: ${b.t}\nDates: ${b.sd} to ${b.ed}\n${b.v ? "Venue: " + b.v + "\n" : ""}Booth: ${b.qty || 1} x ${b.booth_type} (${b.duration})\n\n` +
+              `We'll be in touch on WhatsApp with load-in details. If anything looks wrong, just reply to our WhatsApp chat.\n\nBackyard Events SG`);
+          }
         }
       }
       return J({ ok: true });
