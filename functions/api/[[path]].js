@@ -23,7 +23,7 @@ const evOut = (r, vend = []) => {
   return o;
 };
 
-// Optional emails through Resend (resend.com). Does nothing until RESEND_API_KEY, MAIL_FROM are set.
+// Emails (Resend). Safe to call anywhere: does nothing until RESEND_API_KEY and MAIL_FROM are set.
 async function sendMail(env, to, subject, text) {
   if (!env.RESEND_API_KEY || !env.MAIL_FROM || !to) return;
   try {
@@ -32,9 +32,39 @@ async function sendMail(env, to, subject, text) {
       headers: { authorization: "Bearer " + env.RESEND_API_KEY, "content-type": "application/json" },
       body: JSON.stringify({ from: env.MAIL_FROM, to: Array.isArray(to) ? to : [to], subject, text }),
     });
-  } catch { /* an email problem must never lose a booking */ }
+  } catch { /* an email problem must never lose a payment */ }
 }
 const owners = (env) => String(env.NOTIFY_EMAIL || "").split(",").map((x) => x.trim()).filter(Boolean);
+// Sends the "payment received" email to you and the confirmation to the vendor. Call only right after a booking changed to Paid.
+async function notifyPaid(env, db, bid) {
+  const b = await db.prepare("SELECT b.*, e.title AS t, e.start_date AS sd, e.end_date AS ed, e.venue AS v FROM bookings b LEFT JOIN events e ON e.id = b.event_id WHERE b.id = ?").bind(bid).first();
+  if (!b) return;
+  await sendMail(env, owners(env), `Payment received: ${b.business || b.name}`, `${b.business || b.name} paid $${b.total} for ${b.t}. The booking is now marked Paid.`);
+  await sendMail(env, b.email, `Payment received: your booth at ${b.t}`,
+    `Hi ${b.name},\n\nThank you, we've received your payment of $${b.total}. Your booth is confirmed.\n\n` +
+    `Market: ${b.t}\nDates: ${b.sd} to ${b.ed}\n${b.v ? "Venue: " + b.v + "\n" : ""}Booth: ${b.qty || 1} x ${b.booth_type} (${b.duration})\n\n` +
+    `We'll be in touch on WhatsApp with load-in details. If anything looks wrong, just reply to our WhatsApp chat.\n\nBackyard Events SG`);
+}
+// Marks one booking Paid and sends the emails, but only the first time (so nobody gets two emails).
+async function markPaid(env, db, bid) {
+  const res = await db.prepare("UPDATE bookings SET status = 'Paid' WHERE id = ? AND status != 'Paid'").bind(bid).run();
+  if (res.meta && res.meta.changes) { await notifyPaid(env, db, bid); return true; }
+  return false;
+}
+
+const hpGet = async (env, path) => {
+  const base = (env.HITPAY_BASE || "https://api.sandbox.hit-pay.com/v1").replace(/\/$/, "");
+  const res = await fetch(base + path, { headers: { "X-BUSINESS-API-KEY": env.HITPAY_API_KEY || "" } });
+  const j = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, j };
+};
+const isPaid = (j) =>
+  ["completed", "succeeded"].includes(String(j.status).toLowerCase()) ||
+  (j.payments || []).some((p) => ["completed", "succeeded"].includes(String(p.status).toLowerCase()));
+const page = (title, msg) => new Response(
+  `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>` +
+  `<body style="font:18px/1.5 system-ui,sans-serif;max-width:32rem;margin:15vh auto;padding:0 1.2rem;color:#181818"><h1 style="font-size:1.6rem">${title}</h1><p>${msg}</p><p><a href="/" style="color:#7a3ff0">Back to Backyard Events SG</a></p></body></html>`,
+  { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" } });
 
 async function signedBy(raw, sig, salt) {
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(salt), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
@@ -167,6 +197,33 @@ export async function onRequest({ request: r, env, params }) {
       return J({ ok: true, total: price * qty, duration, status }, 201);
     }
 
+    // The vendor lands here after paying (HitPay's redirect). We never trust the web address: we ask HitPay ourselves.
+    if (a === "paid" && m === "GET") {
+      const q = new URL(r.url).searchParams;
+      const rid = q.get("reference") || q.get("payment_request_id") || q.get("id") || "";
+      const note = { at: new Date().toISOString(), kind: "return", len: 0, body: r.url.slice(0, 300), result: "" };
+      const log = async (result) => {
+        note.result = result;
+        try {
+          const cur = await db.prepare("SELECT value FROM settings WHERE key = 'hooklog'").first();
+          const list = [note, ...(cur ? JSON.parse(cur.value) : [])].slice(0, 10);
+          await db.prepare("INSERT INTO settings (key, value) VALUES ('hooklog', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value").bind(JSON.stringify(list)).run();
+        } catch { /* ignore */ }
+      };
+      const b = rid ? await db.prepare("SELECT id, status FROM bookings WHERE pay_id = ?").bind(rid).first() : null;
+      if (!b) { await log("Vendor came back from HitPay but no booking matched this payment id."); return page("Thank you", "If you have just paid, your booking will show as paid shortly. You can also message us on WhatsApp."); }
+      if (b.status === "Paid") { await log(`Booking ${b.id} was already Paid.`); return page("Payment received", "Thank you. Your booth is confirmed. We'll be in touch on WhatsApp with the next details."); }
+      if (!env.HITPAY_API_KEY) { await log("HITPAY_API_KEY is not set on the public project, so the payment could not be checked."); return page("Thank you", "We're confirming your payment. You'll hear from us shortly."); }
+      const hp = await hpGet(env, "/payment-requests/" + encodeURIComponent(rid));
+      if (hp.ok && isPaid(hp.j)) {
+        const changed = await markPaid(env, db, b.id);
+        await log(`Booking ${b.id} confirmed with HitPay${changed ? " and marked Paid, emails sent." : " (already Paid)."}`);
+        return page("Payment received", "Thank you. Your booth is confirmed. We'll be in touch on WhatsApp with the next details.");
+      }
+      await log(`HitPay says booking ${b.id} is not paid yet (HTTP ${hp.status}, status "${hp.j && hp.j.status}").`);
+      return page("We're checking your payment", "We haven't received confirmation from the bank yet. If you completed the PayNow payment, it can take a minute. Message us on WhatsApp if it doesn't update.");
+    }
+
     // HitPay tells us a payment went through. Handles both kinds of HitPay callback:
     // new webhooks (JSON + Hitpay-Signature) and the older payment-request callback (form + hmac).
     if (a === "hitpay" && m === "POST") {
@@ -214,15 +271,7 @@ export async function onRequest({ request: r, env, params }) {
       if (!completed) return done(200, `Signature OK, booking ${bid}, but the payment is not completed (status "${status}", event "${ev}").`);
       const res = await db.prepare("UPDATE bookings SET status = 'Paid' WHERE id = ? AND pay_id != '' AND status != 'Paid'").bind(bid).run();
       if (!(res.meta && res.meta.changes)) return done(200, `Signature OK, booking ${bid}: nothing changed. It was already Paid (for example from Check payments) or has no payment link.`);
-      const b = await db.prepare("SELECT b.*, e.title AS t, e.start_date AS sd, e.end_date AS ed, e.venue AS v FROM bookings b LEFT JOIN events e ON e.id = b.event_id WHERE b.id = ?").bind(bid).first();
-      if (b) {
-        await sendMail(env, owners(env), `Payment received: ${b.business || b.name}`, `${b.business || b.name} paid $${b.total} for ${b.t}. The booking is now marked Paid.`);
-        // Confirmation to the vendor
-        await sendMail(env, b.email, `Payment received: your booth at ${b.t}`,
-          `Hi ${b.name},\n\nThank you, we've received your payment of $${b.total}. Your booth is confirmed.\n\n` +
-          `Market: ${b.t}\nDates: ${b.sd} to ${b.ed}\n${b.v ? "Venue: " + b.v + "\n" : ""}Booth: ${b.qty || 1} x ${b.booth_type} (${b.duration})\n\n` +
-          `We'll be in touch on WhatsApp with load-in details. If anything looks wrong, just reply to our WhatsApp chat.\n\nBackyard Events SG`);
-      }
+      await notifyPaid(env, db, bid);
       return done(200, `Booking ${bid} marked Paid and emails sent (if Resend is set up).`);
     }
 
